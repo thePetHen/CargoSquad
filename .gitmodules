@@ -1,0 +1,3 @@
+[submodule "Assets/pworld"]
+	path = Assets/pworld
+	url = https://github.com/ThePetters/pworld.git
