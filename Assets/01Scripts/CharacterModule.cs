@@ -11,7 +11,6 @@ public abstract class CharacterModule
     }
 
     public abstract void Start();
-    
     public abstract void Update();
     public abstract void FixedUpdate();
     public Transform transform => character.transform;
