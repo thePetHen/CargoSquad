@@ -3,6 +3,7 @@
 public abstract class CharacterModule
 {
 
+    [HideInInspector]
     public Character character;
 
     public virtual void Awake(Character character)

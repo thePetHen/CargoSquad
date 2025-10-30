@@ -60,7 +60,7 @@ public class CharacterMovement : CharacterModule
     {
         var projectedVelocity = rig.linearVelocity;
         projectedVelocity = Vector3.ProjectOnPlane(projectedVelocity, Vector3.up);
-        Debug.Log($"projectedVelocity {projectedVelocity.magnitude}");
+//        Debug.Log($"projectedVelocity {projectedVelocity.magnitude}");
         
         var forwardOnPlane = Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up);
         var rightOnPlane = Vector3.ProjectOnPlane(camera.transform.right, Vector3.up);
@@ -75,15 +75,15 @@ public class CharacterMovement : CharacterModule
         {
             if (preVelocity.magnitude > maxVelocity)
             {
-                Debug.Log("Velocity correction");
+//                Debug.Log("Velocity correction");
                 var velocity = rig.linearVelocity;
                 velocity = Vector3.ClampMagnitude(velocity, preVelocity.magnitude);
                 rig.linearVelocity = velocity;
-                Debug.Log($"postVelocity {rig.linearVelocity.magnitude}, PreVelocity {preVelocity.magnitude}");
+                //Debug.Log($"postVelocity {rig.linearVelocity.magnitude}, PreVelocity {preVelocity.magnitude}");
                 
             }
         }
-        
+            
     }
     
     public override void FixedUpdate()
