@@ -9,7 +9,7 @@ public class BoatMover : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PExt.DoInSec(3, ()=> move = true);
+        
     }
 
     // Update is called once per frame
