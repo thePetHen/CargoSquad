@@ -1,3 +1,4 @@
+using System;
 using pworld.Scripts.Extensions;
 using UnityEngine;
 
@@ -6,6 +7,15 @@ public class BoatMover : MonoBehaviour
     public float speed = 10f;
 
     private bool move = false;
+
+    public static BoatMover me;
+
+    private void Awake()
+    {
+
+        me = this;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

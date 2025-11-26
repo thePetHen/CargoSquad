@@ -19,8 +19,6 @@ public class IslandGenerator : MonoBehaviour
         {
             var randPos = transform.position;
             randPos += new Vector3(Random.Range(-size, size), 0, Random.Range(-size, size));
-            
-            
         }
     }
     
@@ -32,7 +30,7 @@ public class IslandGenerator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawCube(transform.position, new Vector3(size, 1, size));
+        Gizmos.DrawWireCube(transform.position, new Vector3(size, 1, size));
     }
 
     // Update is called once per frame

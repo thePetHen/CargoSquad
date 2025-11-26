@@ -27,6 +27,9 @@ public class CharacterMovement : CharacterModule
     public float maxVelocity = 9.7f;
     public float CoyoteTime = .05f;
 
+    private bool firstFrame = true;
+    private Vector3 lastLocalBoatPosition;
+
     public float Height => height * (data.isCrouched ? .66f : 1f);
 
     public float Drag => data.isGrounded ? drag : airDrag;
@@ -56,38 +59,42 @@ public class CharacterMovement : CharacterModule
         data.isCrouched = Input.GetKey(KeyCode.LeftControl);
     }
 
-    void MovementForce()
+    private void MovementForce()
     {
+        
         var projectedVelocity = rig.linearVelocity;
         projectedVelocity = Vector3.ProjectOnPlane(projectedVelocity, Vector3.up);
 //        Debug.Log($"projectedVelocity {projectedVelocity.magnitude}");
-        
+
+
         var forwardOnPlane = Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up);
         var rightOnPlane = Vector3.ProjectOnPlane(camera.transform.right, Vector3.up);
 
         var preVelocity = rig.linearVelocity;
-        
-        
+
+
         rig.AddForce(forwardOnPlane * (PInput.Me.daeqws.z * MovementSpeed), ForceMode.Acceleration);
         rig.AddForce(rightOnPlane * (PInput.Me.daeqws.x * MovementSpeed), ForceMode.Acceleration);
-        
-        if(!data.isGrounded)
-        {
+
+       
+        if (!data.isGrounded)
             if (preVelocity.magnitude > maxVelocity)
             {
-//                Debug.Log("Velocity correction");
+                //                Debug.Log("Velocity correction");
                 var velocity = rig.linearVelocity;
                 velocity = Vector3.ClampMagnitude(velocity, preVelocity.magnitude);
                 rig.linearVelocity = velocity;
                 //Debug.Log($"postVelocity {rig.linearVelocity.magnitude}, PreVelocity {preVelocity.magnitude}");
-                
             }
-        }
-            
     }
-    
+
     public override void FixedUpdate()
     {
+        
+        //rig.MovePosition(rig.position + (Boat.me.rig.GetPointVelocity(transform.position) * Time.fixedDeltaTime));
+        //rig.MoveRotation(rig.rotation * Quaternion.Euler(Boat.me.rig.angularVelocity * Mathf.Rad2Deg * Time.fixedDeltaTime));
+
+
         if (Physics.Raycast(new Ray(transform.position, Vector3.down), out var hit, Height, Utility.StandableMask))
         {
             data.timeSinceGrounded = 0;

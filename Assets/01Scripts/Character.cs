@@ -1,4 +1,5 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 
@@ -15,6 +16,12 @@ public class Character : MonoBehaviour
     public Rigidbody rig;
     public Camera cam;
 
+    [Button]
+    public void FetchCamera()
+    {
+        Camera.main.GetComponent<PChildPos>().Update();
+    }
+    
     private void Awake()
     {
         local = this;
@@ -40,11 +47,16 @@ public class Character : MonoBehaviour
         movement.Update();
         arms.Update();
     }
+    
 
     public void FixedUpdate()
     {
+        
+        
         movement.FixedUpdate();
         arms.FixedUpdate();
+
+
     }
     
 }
