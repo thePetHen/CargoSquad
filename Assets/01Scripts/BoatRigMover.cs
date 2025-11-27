@@ -8,7 +8,6 @@ public class BoatRigMover : MonoBehaviour
     public float drag = .98f;
     public float speed = 10f;
     public float turnAmount = 0;
-    public float angularDamp = .98f;
 
     private Rigidbody rig;
     public Vector3 headingDirection;
@@ -33,6 +32,7 @@ public class BoatRigMover : MonoBehaviour
             return angularVelocity;
         }
     }
+    
 
     public float turnSpeed = 5;
     
@@ -65,8 +65,10 @@ public class BoatRigMover : MonoBehaviour
         headingDirection.Normalize();
         Debug.DrawLine(transform.position, transform.position + headingDirection, Color.yellow);
     }
-    
-    
+
+   
+
+
     private void Awake()
     {
         rig = GetComponent<Rigidbody>();
@@ -76,11 +78,13 @@ public class BoatRigMover : MonoBehaviour
     public void FixedUpdate()
     {
         //Character.local.rig.MovePosition(Character.local.rig.position + (rig.GetPointVelocity(Character.local.rig.position) * Time.fixedDeltaTime));
-        rig.linearVelocity = transform.forward * speed;
+        var force = transform.forward * speed;
+        rig.AddForce(force, ForceMode.Acceleration);
+        GetComponentInChildren<Lever>().lever.AddForce(force, ForceMode.Acceleration);
         rig.linearVelocity *= drag;
         
         rig.angularVelocity = keepUpright.DoIt(rig.angularVelocity, headingDirection, transform);
-        rig.angularVelocity *= angularDamp;
+        rig.angularVelocity *= Utility.BoatDrag;
     }
     
 }

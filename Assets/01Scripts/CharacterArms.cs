@@ -2,21 +2,28 @@
 using pworld.Scripts;
 using pworld.Scripts.Extensions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CharacterArms : CharacterModule
 {
     public GameObject handPrefab;
     public GameObject ghostHandPrefab;
     public float maxGrabLength = 2f;
-    public float pullPoint = 1.5f;
-    public float grabSpring = 20f;
-    public float grabDamp = 15f;
+    [FormerlySerializedAs("grabSpring")] public float defaultGrabSpring = 20f;
+    [FormerlySerializedAs("grabDamp")] public float defaultGrabDamp = 15f;
+
+
+    public float GrabSpring => grabbable ? grabbable.spring : defaultGrabSpring;
+    public float GrabDamp => grabbable ? grabbable.damp : defaultGrabDamp;
+    private Grabbable grabbable;
     private GameObject iHand;
     private GameObject iGhostHand;
     private Rigidbody grabbedRig;
     private Vector3 localGrabbedPosition;
 
     private bool grabbing = false;
+    
+    
     
     public override void Start()
     {
@@ -30,6 +37,8 @@ public class CharacterArms : CharacterModule
         iHand.SetActive(false);
     }
 
+    
+    
     public override void Update()
     {
         if(Physics.Raycast(PExt.GetMiddleScreenRay(), out var hit, maxGrabLength, LayerMask.GetMask($"Grabbable")))
@@ -39,7 +48,8 @@ public class CharacterArms : CharacterModule
                 grabbing = true;
                 iHand.transform.position = hit.point;
                 grabbedRig = hit.collider.attachedRigidbody;
-                Debug.Log($"Grabbed {grabbedRig.name}");
+                grabbable = grabbedRig.GetComponent<Grabbable>();
+                Debug.Log($"Grabbed {grabbedRig.name}, grabbable {grabbable}");
                 localGrabbedPosition = grabbedRig.transform.InverseTransformPoint(hit.point);
             }
             else
@@ -57,6 +67,7 @@ public class CharacterArms : CharacterModule
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             grabbing = false;
+            grabbable = null;
             iHand.SetActive(false);
         }
         
@@ -79,10 +90,12 @@ public class CharacterArms : CharacterModule
         {
             var ray = PExt.GetMiddleScreenRay();
             var pullToPoint = ray.GetPoint(1.5f);
-            var pullForce = FRILerp.PLerp(Vector3.zero, (pullToPoint - iHand.transform.position) * grabSpring, grabDamp, Time.fixedDeltaTime);
+            var pullForce = FRILerp.PLerp(Vector3.zero, (pullToPoint - iHand.transform.position) * GrabSpring, GrabDamp, Time.fixedDeltaTime);
             
             grabbedRig.AddForceAtPosition(pullForce, iHand.transform.position);
             Debug.DrawLine(iHand.transform.position, pullToPoint, Color.red);
+            
+            Debug.Log($"GrabSpring {GrabSpring}, GrabDamp {GrabDamp}");
     
         }
     }
