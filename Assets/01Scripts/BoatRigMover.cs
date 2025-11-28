@@ -5,7 +5,6 @@ using UnityEngine;
 public class BoatRigMover : MonoBehaviour
 {
 
-    public float drag = .98f;
     public float speed = 10f;
     public float turnAmount = 0;
 
@@ -66,9 +65,6 @@ public class BoatRigMover : MonoBehaviour
         Debug.DrawLine(transform.position, transform.position + headingDirection, Color.yellow);
     }
 
-   
-
-
     private void Awake()
     {
         rig = GetComponent<Rigidbody>();
@@ -81,10 +77,10 @@ public class BoatRigMover : MonoBehaviour
         var force = transform.forward * speed;
         rig.AddForce(force, ForceMode.Acceleration);
         GetComponentInChildren<Lever>().lever.AddForce(force, ForceMode.Acceleration);
-        rig.linearVelocity *= drag;
+        rig.linearVelocity *= Utility.BoatDrag;
         
         rig.angularVelocity = keepUpright.DoIt(rig.angularVelocity, headingDirection, transform);
-        rig.angularVelocity *= Utility.BoatDrag;
+        //rig.angularVelocity *= Utility.BoatDrag;
     }
     
 }

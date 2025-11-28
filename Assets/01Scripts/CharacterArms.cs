@@ -14,7 +14,6 @@ public class CharacterArms : CharacterModule
 
 
     public float GrabSpring => grabbable ? grabbable.spring : defaultGrabSpring;
-    public float GrabDamp => grabbable ? grabbable.damp : defaultGrabDamp;
     private Grabbable grabbable;
     private GameObject iHand;
     private GameObject iGhostHand;
@@ -90,13 +89,10 @@ public class CharacterArms : CharacterModule
         {
             var ray = PExt.GetMiddleScreenRay();
             var pullToPoint = ray.GetPoint(1.5f);
-            var pullForce = FRILerp.PLerp(Vector3.zero, (pullToPoint - iHand.transform.position) * GrabSpring, GrabDamp, Time.fixedDeltaTime);
-            
-            grabbedRig.AddForceAtPosition(pullForce, iHand.transform.position);
+
+            var addForce = (pullToPoint - iHand.transform.position) * GrabSpring;
+            grabbedRig.AddForceAtPosition(addForce, iHand.transform.position);
             Debug.DrawLine(iHand.transform.position, pullToPoint, Color.red);
-            
-            Debug.Log($"GrabSpring {GrabSpring}, GrabDamp {GrabDamp}");
-    
         }
     }
 }
