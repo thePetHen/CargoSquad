@@ -33,7 +33,7 @@ public class Lever : MonoBehaviour
 //        Debug.Log($"moverSpeed: {moverSpeed}, speedMul {speedMul}, speedLevel {speedLevel}");
         var wantedRotation = GetWantedAngle(speedLevel);
         var deltaRotation = wantedRotation - angle;
-        Debug.Log($"deltaRotation: {deltaRotation}");
+//        Debug.Log($"deltaRotation: {deltaRotation}");
         //deltaRotation = FRILerp.PLerp(0f, deltaRotation * levelLockSpring, levelLockDamp, Time.fixedDeltaTime);
         var torque = Vector3.Cross(transform.up, transform.right) * (deltaRotation * levelLockSpring);
         lever.AddTorque(torque * Time.fixedDeltaTime, ForceMode.Acceleration);

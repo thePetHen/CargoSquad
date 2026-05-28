@@ -1,4 +1,5 @@
 ﻿using System;
+using _01Scripts;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,8 +11,12 @@ public class Character : MonoBehaviour
     
     [SerializeReference]
     public CharacterMovement movement = new();
+    [SerializeReference]
+    public CharacterPickup pickup = new();
+    [SerializeReference]
+    public CharacterInteraction interaction = new();
 
-    [SerializeReference] public CharacterArms arms = new();
+    //[SerializeReference] public CharacterArms arms = new();
     public CharacterData data;
     public Rigidbody rig;
     public Camera cam;
@@ -29,34 +34,37 @@ public class Character : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         cam = Camera.main;
         
-        
         movement.Awake(this);
-        arms.Awake(this);
+        interaction.Awake(this);
+        pickup.Awake(this);
+        //arms.Awake(this);
         
-
     }
     
     public void Start()
     {
         movement.Start();
-        arms.Start();
+        interaction.Start();
+        pickup.Start();
+        //arms.Start();
     }
     
     public void Update()
     {
         movement.Update();
-        arms.Update();
+        interaction.Update();
+        pickup.Update();
+        //arms.Update();
     }
     
 
     public void FixedUpdate()
     {
-        
-        
         movement.FixedUpdate();
-        arms.FixedUpdate();
-
-
+        interaction.FixedUpdate();
+        pickup.FixedUpdate();
+        //arms.FixedUpdate();
+        
     }
     
 }

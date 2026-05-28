@@ -1,3 +1,6 @@
 [submodule "Assets/pworld"]
 	path = Assets/pworld
 	url = https://github.com/ThePetters/pworld.git
+[submodule "Packages/com.zorro.core"]
+	path = Packages/com.zorro.core
+	url = https://github.com/ZorroAccess/Zorro.Core.git

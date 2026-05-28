@@ -22,8 +22,6 @@ public class CharacterArms : CharacterModule
 
     private bool grabbing = false;
     
-    
-    
     public override void Start()
     {
         iGhostHand = Object.Instantiate(ghostHandPrefab, transform, true);
